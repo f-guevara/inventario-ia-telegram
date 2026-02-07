@@ -1,0 +1,7 @@
+# Personal / media files
+*.png
+*.jpg
+*.jpeg
+*.webp
+Thumbs.db
+.DS_Store
