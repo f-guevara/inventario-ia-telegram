@@ -1,0 +1,926 @@
+{
+  "name": "Inventario CRU-BaserowV1 (Plantilla Pública)",
+  "nodes": [
+    {
+      "parameters": {
+        "message": "❌ No identifiqué el artículo.\\n\\n💡 Intenta: 'Taladro Bosch, 5 unidades, donado por Juan'",
+        "waitUserReply": false,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chat",
+      "typeVersion": 1,
+      "position": [
+        -640,
+        240
+      ],
+      "id": "c8bc32dc-fc69-4d69-9661-4896e0c46d08",
+      "name": "Respond to Chat"
+    },
+    {
+      "parameters": {
+        "message": "=⚠️ Ya existe en inventario:\\n\\n📦 Código: {{ $json.codigo }}\\n📝 {{ $json.nombre }}\\n📊 Cantidad: {{ $json.cantidad }}\\n📍 {{ $json.ubicacion || 'Sin ubicación' }}. Puedo actualizar la cantidad si lo deseas.",
+        "waitUserReply": false,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chat",
+      "typeVersion": 1,
+      "position": [
+        192,
+        256
+      ],
+      "id": "9a22c401-4793-41e9-9756-a177810dfa5f",
+      "name": "Respond to Chat1"
+    },
+    {
+      "parameters": {
+        "message": "=✅ Artículo creado exitosamente\\n\\n📦 Código: {{ $json.codigo }}\\n📝 Nombre: {{ $json.nombre }}\\n📊 Cantidad: {{ $json.cantidad }}",
+        "waitUserReply": false,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chat",
+      "typeVersion": 1,
+      "position": [
+        768,
+        448
+      ],
+      "id": "7daf894b-4795-45e7-b304-59f03fd0a102",
+      "name": "Respond to Chat2"
+    },
+    {
+      "parameters": {
+        "options": {
+          "responseMode": "responseNodes"
+        }
+      },
+      "id": "428a8c19-8315-4e00-8210-4f7f4deb0969",
+      "name": "Chat Trigger",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "position": [
+        -1216,
+        368
+      ],
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "databaseId": 0,
+        "tableId": 0,
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": 6881432,
+              "fieldValue": "={{ $json.seq }}"
+            },
+            {
+              "fieldId": 6881443,
+              "fieldValue": "={{ $json.codigo }}"
+            },
+            {
+              "fieldId": 6881444,
+              "fieldValue": "={{ $json.nombre }}"
+            },
+            {
+              "fieldId": 6881445,
+              "fieldValue": "={{ $json.nombre_normalizado }}"
+            },
+            {
+              "fieldId": 6881446,
+              "fieldValue": "={{ $json.cantidad }}"
+            },
+            {
+              "fieldId": 6881447,
+              "fieldValue": "={{ $json.categoria }}"
+            },
+            {
+              "fieldId": 6881448,
+              "fieldValue": "={{ $json.condicion }}"
+            },
+            {
+              "fieldId": 6881449,
+              "fieldValue": "={{ $json.donador }}"
+            },
+            {
+              "fieldId": 6881451,
+              "fieldValue": "={{ $json.ubicacion }}"
+            },
+            {
+              "fieldId": 6881452,
+              "fieldValue": "={{ $json.notas }}"
+            }
+          ]
+        }
+      },
+      "id": "e9fe29bf-ee63-4a79-9e75-53895464d094",
+      "name": "Crear en Baserow",
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        800,
+        544
+      ],
+      "notes": "Mapeo automático: toma todos los campos del JSON anterior y los guarda en campos con el mismo nombre en Baserow"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "name": "texto",
+              "value": "={{ $json.message.text }}",
+              "type": "string",
+              "id": "e67bf728-bb8c-48d8-bbd5-f1829da5433b"
+            },
+            {
+              "id": "914aab49-b147-4556-9e6f-9a5bc91da9de",
+              "name": "chat_id",
+              "value": "={{ $json.message.from.id }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ac4cea36-9e92-440e-ae6b-5d9dc81d6dde",
+      "name": "Extraer Input",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -960,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.texto }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "Eres un asistente de inventario para una pequeña empresa.\n\nTu función es:\n\nGuiar al usuario desde el inicio\n\nEvitar errores de creación duplicada\n\nExtraer información estructurada del texto en español\n\nPedir solo los datos que faltan\n\nResponder SIEMPRE en JSON usando el parser definido\n\n🧭 Paso 1 – Elección obligatoria de opción\n\nEres un asistente de inventario especializado en extraer información estructurada.\n\nOBJETIVO: Analizar el mensaje del usuario y extraer datos en formato JSON.\n\nOPCIONES Y CAMPOS REQUERIDOS:\n\n1. CONSULTAR: (operacion: \"consultar\")\n   - Requiere: nombre O codigo\n   - cantidad: siempre \"1\"\n   - buscar_por: \"codigo\" si es formato XX-XXX-XX, sino \"nombre\"\n   - valor_busqueda: el código o nombre proporcionado\n\n2. AUMENTAR/DISMINUIR: (operacion: \"aumentar\" o \"disminuir\")\n   - Requiere: nombre O codigo + cantidad\n   - buscar_por: \"codigo\" si es formato XX-XXX-XX, sino \"nombre\"\n   - valor_busqueda: el código o nombre proporcionado\n\n3. CREAR: (operacion: \"crear\")\n   - Requiere: nombre + cantidad\n   - Opcionales: categoria, condicion, donador, ubicacion, notas\n   - buscar_por: siempre \"nombre\"\n   - valor_busqueda: el nombre proporcionado\n\nNORMALIZACIÓN:\n- Si el usuario no ha elegido opción, devuelve operacion: \"\" y nombre: \"\"\n- nombre_normalizado: convertir a minúsculas y quitar acentos\n\nFORMATO DE SALIDA (STRICT JSON):\n{\n  \"operacion\": \"consultar | crear | aumentar | disminuir | ''\",\n  \"buscar_por\": \"codigo | nombre | ''\",\n  \"valor_busqueda\": \"\",\n  \"nombre\": \"\",\n  \"nombre_normalizado\": \"\",\n  \"cantidad\": \"\",\n  \"categoria\": \"\",\n  \"condicion\": \"\",\n  \"donador\": \"\",\n  \"ubicacion\": \"\",\n  \"notas\": \"\"\n}\n\nEJEMPLOS:\n\nEntrada: \"Consultar martillo\"\nSalida: {\"operacion\": \"consultar\", \"buscar_por\": \"nombre\", \"valor_busqueda\": \"martillo\", \"nombre\": \"martillo\", \"nombre_normalizado\": \"martillo\", \"cantidad\": \"1\", ...}\n\nEntrada: \"Crear taladro Bosch, 5 unidades, donado por Juan\"\nSalida: {\"operacion\": \"crear\", \"buscar_por\": \"nombre\", \"valor_busqueda\": \"taladro bosch\", \"nombre\": \"taladro bosch\", \"nombre_normalizado\": \"taladro bosch\", \"cantidad\": \"5\", \"donador\": \"Juan\", ...}\n\nEntrada: \"Sumar 3 al código 01-100-01\"\nSalida: {\"operacion\": \"aumentar\", \"buscar_por\": \"codigo\", \"valor_busqueda\": \"01-100-01\", \"nombre\": \"\", \"nombre_normalizado\": \"\", \"cantidad\": \"3\", ...}\n\nREGLAS CRÍTICAS:\n1. Si faltan datos obligatorios para la operación, deja los campos vacíos\n2. Nunca inventes información\n3. Extrae solo lo que está explícitamente en el mensaje\n4. Respeta exactamente el formato JSON especificado"
+        }
+      },
+      "id": "61366e1d-b8aa-4eb0-b3a6-af3d87b2cbdb",
+      "name": "Extraer con IA",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [
+        -880,
+        432
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "nombre-check",
+              "leftValue": "={{ $json.output.nombre }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "57be8162-5be9-49ab-9d3b-32e5856e1212",
+              "leftValue": "={{ $json.output.valor_busqueda }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "b9f1fc23-fa64-48b6-a4e6-23ebd965db8d",
+      "name": "¿Tiene Nombre?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -608,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "databaseId": 0,
+        "tableId": 0,
+        "limit": 1,
+        "additionalOptions": {
+          "search": "={{ $json.nombre_normalizado }}"
+        }
+      },
+      "id": "5bb677f4-ee76-45f9-ae77-fe421c182ad8",
+      "name": "Buscar Duplicado",
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        -176,
+        384
+      ],
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput",
+      "notes": "Busca por nombre normalizado"
+    },
+    {
+      "parameters": {
+        "databaseId": 0,
+        "tableId": 0,
+        "limit": 1,
+        "additionalOptions": {
+          "order": {
+            "fields": [
+              {
+                "field": 6881443,
+                "direction": "-"
+              }
+            ]
+          }
+        }
+      },
+      "id": "304f1a4e-7459-4082-a728-c0edf3a06526",
+      "name": "Leer Último Registro",
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        304,
+        560
+      ],
+      "notes": "Lee SOLO el último registro ordenado por ID (campo reservado de Baserow que siempre incrementa)"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Obtener el último registro (si existe)\nconst items = $input.all();\n\nlet ultimoCodigo = '01-099-99'; // Default para que el primero sea 01-100-01\nlet ultimoSeq = 0;\n\n// Verificar si hay registros\nif (items.length > 0) {\n  const ultimoRegistro = items[0].json;\n  \n  console.log('📦 Último registro completo:', JSON.stringify(ultimoRegistro, null, 2));\n  \n  // Leer el seq del último registro\n  if (ultimoRegistro.seq !== undefined && ultimoRegistro.seq !== null && ultimoRegistro.seq !== '') {\n    ultimoSeq = parseInt(ultimoRegistro.seq);\n    console.log('✅ SEQ encontrado:', ultimoSeq);\n  } else {\n    console.log('⚠️ SEQ no encontrado o vacío en último registro');\n  }\n  \n  // Leer el código del último registro\n  if (ultimoRegistro.codigo && ultimoRegistro.codigo.trim() !== '') {\n    ultimoCodigo = ultimoRegistro.codigo;\n    console.log('✅ Código encontrado:', ultimoCodigo);\n  } else {\n    console.log('⚠️ Código no encontrado o vacío');\n  }\n} else {\n  console.log('📝 Tabla vacía, primer registro será SEQ:1, Código:01-100-01');\n}\n\n// Nuevo correlativo secuencial (SIEMPRE incrementa)\nconst nuevoSeq = ultimoSeq + 1;\nconsole.log('🔢 Calculando nuevo SEQ:', ultimoSeq, '+1 =', nuevoSeq);\n\n// Descomponer el código: 01-123-45 → [1, 123, 45]\nconst partes = ultimoCodigo.split('-');\nlet a = parseInt(partes[0]) || 1;\nlet b = parseInt(partes[1]) || 99;\nlet c = parseInt(partes[2]) || 99;\n\nconsole.log('📊 Código actual descompuesto:', {a, b, c});\n\n// Incrementar según lógica: 01-100-01 → 01-100-99 → 01-101-01\nif (c < 99) {\n  c++;\n} else {\n  c = 1;\n  if (b < 999) {\n    b++;\n  } else {\n    b = 100;\n    if (a < 99) {\n      a++;\n    } else {\n      throw new Error('❌ Límite máximo alcanzado (99-999-99)');\n    }\n  }\n}\n\n// Formatear con padding\nconst pad2 = n => String(n).padStart(2, '0');\nconst pad3 = n => String(n).padStart(3, '0');\n\nconst nuevoCodigo = `${pad2(a)}-${pad3(b)}-${pad2(c)}`;\n\nconsole.log('✨ RESULTADO → SEQ:', nuevoSeq, 'Código:', nuevoCodigo);\n\n// Obtener los datos del artículo desde el nodo anterior\nconst datosArticulo = $('¿Tiene Nombre?').first().json.output;\n\nreturn {\n  json: {\n    seq: nuevoSeq,\n    codigo: nuevoCodigo,\n    nombre: datosArticulo.nombre,\n    nombre_normalizado: datosArticulo.nombre.toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g, ''),\n    cantidad: datosArticulo.cantidad || '1',\n    categoria: datosArticulo.categoria || '',\n    condicion: datosArticulo.condicion || '',\n    donador: datosArticulo.donador || '',\n    ubicacion: datosArticulo.ubicacion || '',\n    notas: datosArticulo.notas || ''\n  }\n};"
+      },
+      "id": "1630aefc-d505-4a91-9b81-35b274d1b452",
+      "name": "Calcular Siguiente Código",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "options": {
+          "temperature": 0.2
+        }
+      },
+      "id": "2da824a1-5f67-4302-b4d6-3e9177128de8",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        -960,
+        624
+      ]
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"operacion\": \"consultar | crear | aumentar | disminuir\",\n  \"buscar_por\": \"codigo | nombre\",\n  \"valor_busqueda\": \"\",\n  \"nombre\": \"\",\n  \"cantidad\": \"1\",\n  \"categoria\": \"\",\n  \"condicion\": \"\",\n  \"donador\": \"\",\n  \"ubicacion\": \"\",\n  \"notas\": \"\"\n}"
+      },
+      "id": "cfac9230-9709-4648-9b35-9a85d2cfd071",
+      "name": "Structured Output Parser",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -752,
+        592
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Datos del artículo desde el nodo 'Datos Articulo'\nconst articuloNuevo = $('Datos Articulo').first().json;\n\n// Resultados de la búsqueda en Baserow\nconst resultadosBusqueda = $input.all();\n\n// Tomamos el primer resultado (siempre habrá uno porque \"Always Output Data\" está activo)\nconst posibleDuplicado = resultadosBusqueda[0].json;\n\n// --- LÓGICA PARA GUARDAR ROW ID ---\n\nif (posibleDuplicado && posibleDuplicado.id) {\n  // CASO: el artículo ya existe en Baserow\n  return {\n    json: {\n      accion: 'existe',\n      rowId: posibleDuplicado.id,          // <-- Row ID interno de Baserow\n      seq: posibleDuplicado.seq || null,   // tu autonumber, opcional\n      codigo: posibleDuplicado.codigo,\n      nombre: posibleDuplicado.nombre,\n      nombre_normalizado: posibleDuplicado.nombre_normalizado,\n      cantidad: posibleDuplicado.cantidad,\n      ubicacion: posibleDuplicado.ubicacion || ''\n    }\n  };\n} else {\n  // CASO: el artículo no existe → crear uno nuevo\n  return {\n    json: {\n      accion: 'crear',\n      // Pasamos todos los datos del nuevo artículo\n      ...articuloNuevo\n    }\n  };\n}\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -16,
+        384
+      ],
+      "id": "bc762368-cfa8-4955-ac5c-56fd8732dddd",
+      "name": "Preparar Artículo Nuevo"
+    },
+    {
+      "parameters": {
+        "jsCode": "const datosIA = $json.output;\n\nfunction normalizar(texto) {\n  if (!texto) return '';\n  return texto.toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g, '');\n}\n\nreturn {\n  json: {\n    operacion: datosIA.operacion || 'crear',\n    buscar_por: datosIA.buscar_por || 'nombre',\n    valor_busqueda: datosIA.valor_busqueda || datosIA.nombre || '',\n    nombre: datosIA.nombre,\n    nombre_normalizado: normalizar(datosIA.nombre || datosIA.valor_busqueda),\n    cantidad: datosIA.cantidad || '1',\n    categoria: datosIA.categoria || '',\n    condicion: datosIA.condicion || '',\n    donador: datosIA.donador || '',\n    ubicacion: datosIA.ubicacion || '',\n    notas: datosIA.notas || ''\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -464,
+        208
+      ],
+      "id": "55b27649-7a9e-4c77-8553-1db34cf8ccf0",
+      "name": "Datos Articulo"
+    },
+    {
+      "parameters": {
+        "mode": "expression",
+        "numberOutputs": 3,
+        "output": "={{\n  $json.accion === 'existe' && $('Datos Articulo').first().json.operacion === 'crear'\n    ? 0\n    : $json.accion === 'existe'\n      ? 1\n      : 2\n}}\n"
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        144,
+        384
+      ],
+      "id": "b664fa2f-fab3-4141-9802-ac6f87338585",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "mode": "expression",
+        "numberOutputs": 2,
+        "output": "={{($('Datos Articulo').first().json.operacion === 'consultar') ? 0 : 1}}\n"
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -304,
+        224
+      ],
+      "id": "5a17c461-f554-41f3-a50e-f912dc863abd",
+      "name": "Switch Operacion"
+    },
+    {
+      "parameters": {
+        "databaseId": 0,
+        "tableId": 0,
+        "limit": 5,
+        "additionalOptions": {
+          "search": "={{ $json.valor_busqueda }}"
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        -96,
+        128
+      ],
+      "id": "6c4d52fb-6bdc-437d-b308-84f624380015",
+      "name": "Get many rows"
+    },
+    {
+      "parameters": {
+        "jsCode": "const resultados = $input.all();\n\n// CASO 0: No se encontró nada (el resultado está vacío o no tiene ID real)\nif (resultados.length === 0 || !resultados[0].json.id) {\n  return {\n    json: {\n      mensaje: '❌ No encontré ningún artículo con esa descripción o código.\\n\\n💡 Verifica el código exacto o usa un nombre más general.'\n    }\n  };\n}\n\n// Extraer los datos limpios\nconst articulos = resultados.map(item => item.json);\n\n// CASO 1: Un solo resultado exacto\nif (articulos.length === 1) {\n  const art = articulos[0];\n  let msg = `📦 **${art.nombre}**\\n\\n`;\n  msg += `🔢 Código: \\`${art.codigo}\\`\\n`;\n  msg += `📊 Cantidad: **${art.cantidad}** unidades\\n`;\n  if (art.ubicacion) msg += `📍 Ubicación: ${art.ubicacion}\\n`;\n  if (art.categoria) msg += `📁 Categoría: ${art.categoria}\\n`;\n  msg += `⚙️ Condición: ${art.condicion || 'N/A'}\\n`;\n  if (art.notas) msg += `📝 Notas: ${art.notas}`;\n\n  return { json: { mensaje: msg } };\n\n} else {\n  // CASO MÚLTIPLE: Varios resultados parecidos\n  let msg = `🔍 Encontré **${articulos.length}** artículos similares:\\n\\n`;\n  articulos.forEach(art => {\n    msg += `🔹 \\`${art.codigo}\\` | **${art.nombre}** (Stock: ${art.cantidad})\\n`;\n  });\n  msg += '\\n💡 Usa el código específico para ver detalles.';\n  return { json: { mensaje: msg } };\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        16,
+        32
+      ],
+      "id": "607a0354-b2fd-414c-8d5d-d26ef981464a",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "message": "={{ $json.mensaje }}",
+        "waitUserReply": false,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chat",
+      "typeVersion": 1,
+      "position": [
+        272,
+        -16
+      ],
+      "id": "f3cb7992-50a7-44e1-af55-e8aaa505d3a8",
+      "name": "Respond to Chat3"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Datos del artículo existente (traído desde la búsqueda)\nconst existente = $json;\n\n// Datos de la operación (desde 'Datos Articulo')\nconst datos = $('Datos Articulo').first().json;\n\n// Parsear cantidades como números\nconst cantidadActual = parseInt(existente.cantidad || 0);\nconst cambio = parseInt(datos.cantidad || 0);\n\nlet nuevaCantidad;\n\n// Calcular nueva cantidad según operación\nif (datos.operacion === 'aumentar') {\n  nuevaCantidad = cantidadActual + cambio;\n} else if (datos.operacion === 'disminuir') {\n  nuevaCantidad = cantidadActual - cambio;\n} else if (datos.operacion === 'crear') {\n  // Si es creación, usamos la cantidad indicada\n  nuevaCantidad = cambio;\n} else {\n  throw new Error('Operación no válida para update');\n}\n\n// Blindaje: no permitir negativos\nif (nuevaCantidad < 0) {\n  return {\n    json: {\n      error: true,\n      mensaje: `❌ No se puede reducir más de lo disponible (${cantidadActual}).`,\n      id: existente.seq || null   // por si necesitas referenciar fila\n    }\n  };\n}\n\n// Retornamos todos los datos para el siguiente nodo (Set / Update)\nreturn {\n  json: {\n    rowId: existente.rowId,     \n    codigo: existente.codigo,\n    nombre: existente.nombre,\n    nombre_normalizado: existente.nombre_normalizado,\n    cantidad_anterior: cantidadActual,\n    cantidad_nueva: nuevaCantidad,\n    operacion: datos.operacion,\n    ubicacion: existente.ubicacion || ''\n  }\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        352,
+        384
+      ],
+      "id": "3319521a-b4f6-40ad-9375-0b2b2a3ece8f",
+      "name": "Calcular Nueva Cantidad"
+    },
+    {
+      "parameters": {
+        "message": "=✅ Inventario actualizado\n\n📦 {{ $json.nombre }}\n🔢 Código: {{ $json.codigo }}\nAhora: {{ $json.cantidad }}\n",
+        "waitUserReply": false,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chat",
+      "typeVersion": 1,
+      "position": [
+        1072,
+        352
+      ],
+      "id": "4f606a0c-f35e-41f4-b4a9-c257e5891259",
+      "name": "Respond to Chat4"
+    },
+    {
+      "parameters": {
+        "message": "={{ $json.mensaje }}",
+        "waitUserReply": false,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chat",
+      "typeVersion": 1,
+      "position": [
+        624,
+        272
+      ],
+      "id": "f1013650-2509-426b-8662-cdf296ce4e6d",
+      "name": "Respond to Chat5"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "databaseId": 0,
+        "tableId": 0,
+        "rowId": "={{$json.rowId}}",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": 6881446,
+              "fieldValue": "={{ $json.cantidad_nueva }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        1056,
+        448
+      ],
+      "id": "4a2f3b6c-94ca-45f9-a05f-e698db4fa068",
+      "name": "Actualizar Cantidad"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.cantidad_nueva }}",
+                    "rightValue": 0,
+                    "operator": {
+                      "type": "number",
+                      "operation": "notExists",
+                      "singleValue": true
+                    },
+                    "id": "90b5819b-bfa2-49fb-9e0e-18cafca3b1b8"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "mensaje"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "0bdeeb01-78b6-441f-a1e4-85f9ffbffde8",
+                    "leftValue": "={{ $json.cantidad_nueva }}",
+                    "rightValue": 0,
+                    "operator": {
+                      "type": "number",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "calculo"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        576,
+        368
+      ],
+      "id": "2f8873e5-b847-4319-9e7c-382eb55af5ae",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1168,
+        160
+      ],
+      "id": "f838bceb-5ce5-4f7e-9345-bb26efbb5dae",
+      "name": "Telegram Trigger"
+    },
+    {
+      "parameters": {
+        "chatId": "REEMPLAZAR_CON_TU_CHAT_ID",
+        "text": "❌ No puedo continuar porque falta información.  Por favor escribe el mensaje siguiendo UNA de estas opciones:  1️⃣ Consultar un producto   Ejemplo: \"Consultar tornillo 4mm\" \"Info del código 01-100-01\"  2️⃣ Agregar unidades a un producto existente   Ejemplo: \"Agregar 5 unidades al tornillo 4mm\" \"Sumar 3 al código 01-100-01\"  3️⃣ Crear un producto nuevo   Ejemplo: \"Crear producto nuevo: guante quirúrgico, 10 unidades\" \"Registrar artículo nuevo: taladro Bosch, 5 unidades\"  ⚠️ Importante:   Solo se crean productos nuevos si lo indicas explícitamente.",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -400,
+        448
+      ],
+      "id": "e2185923-0063-4ed8-8899-91af378ae39b",
+      "name": "Send a text message"
+    },
+    {
+      "parameters": {
+        "chatId": "REEMPLAZAR_CON_TU_CHAT_ID",
+        "text": "={{ $json.mensaje }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        320,
+        96
+      ],
+      "id": "a152fc79-0f19-4bfc-86d2-e6f8efa9eae5",
+      "name": "Send a text message1"
+    },
+    {
+      "parameters": {
+        "chatId": "REEMPLAZAR_CON_TU_CHAT_ID",
+        "text": "=⚠️ Ya existe en inventario:\\n\\n📦 Código: {{ $json.codigo }}\\n📝 {{ $json.nombre }}\\n📊 Cantidad: {{ $json.cantidad }}\\n📍 {{ $json.ubicacion || 'Sin ubicación' }}. Puedo actualizar la cantidad si lo deseas.",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        352,
+        256
+      ],
+      "id": "9d83a7df-5771-4a12-b41b-a69adb724010",
+      "name": "Send a text message2"
+    },
+    {
+      "parameters": {
+        "chatId": "REEMPLAZAR_CON_TU_CHAT_ID",
+        "text": "={{ $json.mensaje }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        816,
+        320
+      ],
+      "id": "cab6b78b-618b-424c-8d2e-90bc2e657234",
+      "name": "Send a text message3"
+    },
+    {
+      "parameters": {
+        "chatId": "REEMPLAZAR_CON_TU_CHAT_ID",
+        "text": "=✅ Artículo creado exitosamente\\n\\n📦 Código: {{ $json.codigo }}\\n📝 Nombre: {{ $json.nombre }}\\n📊 Cantidad: {{ $json.cantidad }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1056,
+        592
+      ],
+      "id": "bf0beabc-d3bd-49f7-9bba-f07ff16581e5",
+      "name": "Send a text message4"
+    },
+    {
+      "parameters": {
+        "chatId": "REEMPLAZAR_CON_TU_CHAT_ID",
+        "text": "=✅ Inventario actualizado  📦 {{ $json.nombre }} 🔢 Código: {{ $json.codigo }} Ahora: {{ $json.cantidad }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1264,
+        448
+      ],
+      "id": "3d1910b0-63a4-49c4-85f1-55fe28e18890",
+      "name": "Send a text message5"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "ID_SESION_DINAMICO"
+      },
+      "id": "796614a3-ec65-4eb1-936e-c1f7a7f731e5",
+      "name": "Chat Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "position": [
+        -848,
+        816
+      ],
+      "typeVersion": 1.3
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Crear en Baserow": {
+      "main": [
+        [
+          {
+            "node": "Send a text message4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extraer Input": {
+      "main": [
+        [
+          {
+            "node": "Extraer con IA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extraer con IA": {
+      "main": [
+        [
+          {
+            "node": "¿Tiene Nombre?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Tiene Nombre?": {
+      "main": [
+        [
+          {
+            "node": "Datos Articulo",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar Duplicado": {
+      "main": [
+        [
+          {
+            "node": "Preparar Artículo Nuevo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Leer Último Registro": {
+      "main": [
+        [
+          {
+            "node": "Calcular Siguiente Código",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calcular Siguiente Código": {
+      "main": [
+        [
+          {
+            "node": "Crear en Baserow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Extraer con IA",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Extraer con IA",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar Artículo Nuevo": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Datos Articulo": {
+      "main": [
+        [
+          {
+            "node": "Switch Operacion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Send a text message2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Calcular Nueva Cantidad",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Leer Último Registro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch Operacion": {
+      "main": [
+        [
+          {
+            "node": "Get many rows",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Buscar Duplicado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Send a text message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calcular Nueva Cantidad": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Actualizar Cantidad": {
+      "main": [
+        [
+          {
+            "node": "Send a text message5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Send a text message3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Actualizar Cantidad",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Extraer Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Extraer con IA",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "tags": []
+}
