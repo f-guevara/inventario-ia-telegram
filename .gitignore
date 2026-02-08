@@ -5,3 +5,10 @@
 *.webp
 Thumbs.db
 .DS_Store
+
+# Allow images in the main 'images' folder
+!images/*.png
+!images/*.jpg
+!images/*.jpeg
+!images/*.webp
+
