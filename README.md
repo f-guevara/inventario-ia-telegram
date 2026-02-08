@@ -84,74 +84,85 @@ Un bot de Telegram con Inteligencia Artificial que permite:
 
 ---
 
-## 🎥 Demo
-
-### Conversación Completa
-
+🎥 Demo
+Conversación Completa
+Consultar producto:
 👤 Cuántas unidades de tornillo 10mm
+
 🤖 📦 tornillo 10mm
-
-🔢 Código: 01-100-07
-📊 Cantidad: 10 unidades
-⚙️ Condición: N/A
-
+   🔢 Código: 01-100-07
+   📊 Cantidad: 10 unidades
+   ⚙️ Condición: N/A
+Crear artículo nuevo:
 👤 Artículo nuevo, tornillo 15mm, 10 u
+
 🤖 ✅ Artículo creado exitosamente
-
-📦 Código: 01-100-12
-📝 Nombre: tornillo 15mm
-📊 Cantidad: 10
-
+   📦 Código: 01-100-12
+   📝 Nombre: tornillo 15mm
+   📊 Cantidad: 10
+Restar unidades:
 👤 Restar 2 un a 01-100-12
-🤖 ✅ Inventario actualizado
-📦 tornillo 15mm
-🔢 Código: 01-100-12
-Ahora: 8
 
+🤖 ✅ Inventario actualizado
+   📦 tornillo 15mm
+   🔢 Código: 01-100-12
+   Ahora: 8
+Agregar unidades:
 👤 Sumar 10 un a 01-100-12
-🤖 ✅ Inventario actualizado
-📦 tornillo 15mm
-🔢 Código: 01-100-12
-Ahora: 18
 
+🤖 ✅ Inventario actualizado
+   📦 tornillo 15mm
+   🔢 Código: 01-100-12
+   Ahora: 18
+Verificar cantidad actualizada:
 👤 Unidades de tornillo 15mm
+
 🤖 📦 tornillo 15mm
-
-🔢 Código: 01-100-12
-📊 Cantidad: 18 unidades
-⚙️ Condición: N/A
-
+   🔢 Código: 01-100-12
+   📊 Cantidad: 18 unidades
+   ⚙️ Condición: N/A
+Crear producto (con texto en alemán):
 👤 Agregar nuevos productos: lagerschaler 10 Stück
+
 🤖 ✅ Artículo creado exitosamente
-
-📦 Código: 01-100-13
-📝 Nombre: lagerschaler
-📊 Cantidad: 10
-
+   📦 Código: 01-100-13
+   📝 Nombre: lagerschaler
+   📊 Cantidad: 10
+Actualizar por código:
 👤 Agregar 10 un articulo 01-100-13
+
 🤖 ✅ Inventario actualizado
-📦 lagerschaler
-🔢 Código: 01-100-13
-Ahora: 20
-
+   📦 lagerschaler
+   🔢 Código: 01-100-13
+   Ahora: 20
+Ayuda contextual:
 👤 Hola
+
 🤖 ❌ No puedo continuar porque falta información.
-Por favor escribe el mensaje siguiendo UNA de estas opciones:
-
-1️⃣ Consultar un producto
-Ejemplo: "Consultar tornillo 4mm"
-Ejemplo: "Info del código 01-100-01"
-
-2️⃣ Agregar unidades a un producto existente
-Ejemplo: "Agregar 5 unidades al tornillo 4mm"
-Ejemplo: "Sumar 3 al código 01-100-01"
-
-3️⃣ Crear un producto nuevo
-Ejemplo: "Crear producto nuevo: guante quirúrgico, 10 unidades"
-Ejemplo: "Registrar artículo nuevo: taladro Bosch, 5 unidades"
-
-⚠️ Importante:
-Solo se crean productos nuevos si lo indicas explícitamente.
+   
+   Por favor escribe el mensaje siguiendo UNA de estas opciones:
+   
+   1️⃣ Consultar un producto
+   Ejemplo: "Consultar tornillo 4mm"
+   Ejemplo: "Info del código 01-100-01"
+   
+   2️⃣ Agregar unidades a un producto existente
+   Ejemplo: "Agregar 5 unidades al tornillo 4mm"
+   Ejemplo: "Sumar 3 al código 01-100-01"
+   
+   3️⃣ Crear un producto nuevo
+   Ejemplo: "Crear producto nuevo: guante quirúrgico, 10 unidades"
+   Ejemplo: "Registrar artículo nuevo: taladro Bosch, 5 unidades"
+   
+   ⚠️ Importante:
+   Solo se crean productos nuevos si lo indicas explícitamente.
+Características Demostradas
+✅ Búsqueda inteligente - Por nombre o código
+✅ Generación automática de códigos - Sistema numérico
+✅ Operaciones matemáticas - Sumar/restar inventario
+✅ Multi-idioma - Español, alemán, etc.
+✅ Ayuda contextual - Guía cuando hay error
+✅ Actualización en tiempo real - Cambios inmediatos
 
 
 

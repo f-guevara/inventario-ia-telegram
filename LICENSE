@@ -1,6 +1,6 @@
-MIT License
+# MIT License
 
-Copyright (c) 2026 Fernando Guevara
+Copyright (c) 2025 Fernando Guevara 
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +19,81 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+---
+
+## ¿Qué significa la Licencia MIT?
+
+### ✅ LO QUE PUEDES HACER:
+
+- **Uso Comercial:** Puedes usar este software en proyectos comerciales
+- **Modificación:** Puedes modificar el código como quieras
+- **Distribución:** Puedes distribuir el software original o modificado
+- **Uso Privado:** Puedes usar el software en privado
+- **Sublicenciar:** Puedes sublicenciar el software
+
+### ⚠️ LO QUE DEBES HACER:
+
+- **Incluir Licencia:** Debes incluir una copia de esta licencia en cualquier distribución
+- **Incluir Copyright:** Debes incluir el aviso de copyright original
+
+### ❌ LO QUE NO OBTIENES:
+
+- **Responsabilidad:** El autor NO es responsable por problemas causados por el software
+- **Garantía:** El software se proporciona "tal cual", sin garantías
+- **Uso de Marca:** No puedes usar el nombre del autor para promocionar productos derivados sin permiso
+
+---
+
+## En Términos Simples
+
+**Puedes hacer casi lo que quieras con este código**, incluyendo usarlo en tu empresa, modificarlo, y venderlo. Solo tienes que:
+
+1. Mencionar que usaste este código (incluir la licencia)
+2. No culpar al autor si algo sale mal
+3. No pretender que tú escribiste el código original
+
+Es una de las licencias más permisivas que existen.
+
+---
+
+## Comparación con Otras Licencias
+
+| Licencia | Uso Comercial | Modificar | Distribuir | Código Abierto Obligatorio |
+|----------|--------------|-----------|------------|---------------------------|
+| **MIT** | ✅ Sí | ✅ Sí | ✅ Sí | ❌ No |
+| GPL v3 | ✅ Sí | ✅ Sí | ✅ Sí | ✅ Sí (copyleft) |
+| Apache 2.0 | ✅ Sí | ✅ Sí | ✅ Sí | ❌ No |
+| Creative Commons | ⚠️ Depende | ⚠️ Depende | ✅ Sí | ⚠️ Depende |
+
+**MIT es ideal cuando quieres:**
+- Máxima libertad para los usuarios
+- Que empresas puedan usar tu código
+- Mínima fricción legal
+- Que otros mejoren y compartan (pero no obligatorio)
+
+---
+
+## Preguntas Frecuentes
+
+**P: ¿Puedo usar este proyecto en mi empresa?**  
+R: Sí, totalmente. Puedes incluso venderlo.
+
+**P: ¿Tengo que compartir mis modificaciones?**  
+R: No, pero sería genial si lo hicieras (contribuir al open source).
+
+**P: ¿Puedo quitar el copyright del autor?**  
+R: No, debes mantener el aviso de copyright original.
+
+**P: ¿Puedo cambiar la licencia de mis versiones modificadas?**  
+R: Sí, pero debes mantener la licencia MIT para el código original.
+
+**P: ¿El autor me ayudará si tengo problemas?**  
+R: No hay obligación, pero puedes abrir un Issue en GitHub.
+
+---
+
+**Para más información sobre la Licencia MIT:**
+- [Resumen oficial de MIT](https://opensource.org/licenses/MIT)
+- [ChooseALicense.com](https://choosealicense.com/licenses/mit/)
+- [TLDRLegal - MIT License](https://tldrlegal.com/license/mit-license)
