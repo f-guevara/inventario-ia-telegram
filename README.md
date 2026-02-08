@@ -113,8 +113,8 @@ Un bot de Telegram con Inteligencia Artificial que permite:
 
 ### Screenshots
 
-![Conversación Telegram](ejemplos/screenshot-telegram.png)
-![Dashboard Baserow](ejemplos/screenshot-baserow.png)
+![Conversación Telegram](images/screenshot-telegram..png)
+![Dashboard Baserow](images/screenshot-baserow.png)
 
 ---
 
