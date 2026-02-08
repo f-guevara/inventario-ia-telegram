@@ -88,28 +88,72 @@ Un bot de Telegram con Inteligencia Artificial que permite:
 
 ### Conversación Completa
 
-```
+👤 Cuántas unidades de tornillo 10mm
+🤖 📦 tornillo 10mm
+
+🔢 Código: 01-100-07
+📊 Cantidad: 10 unidades
+⚙️ Condición: N/A
+
+👤 Artículo nuevo, tornillo 15mm, 10 u
+🤖 ✅ Artículo creado exitosamente
+
+📦 Código: 01-100-12
+📝 Nombre: tornillo 15mm
+📊 Cantidad: 10
+
+👤 Restar 2 un a 01-100-12
+🤖 ✅ Inventario actualizado
+📦 tornillo 15mm
+🔢 Código: 01-100-12
+Ahora: 8
+
+👤 Sumar 10 un a 01-100-12
+🤖 ✅ Inventario actualizado
+📦 tornillo 15mm
+🔢 Código: 01-100-12
+Ahora: 18
+
+👤 Unidades de tornillo 15mm
+🤖 📦 tornillo 15mm
+
+🔢 Código: 01-100-12
+📊 Cantidad: 18 unidades
+⚙️ Condición: N/A
+
+👤 Agregar nuevos productos: lagerschaler 10 Stück
+🤖 ✅ Artículo creado exitosamente
+
+📦 Código: 01-100-13
+📝 Nombre: lagerschaler
+📊 Cantidad: 10
+
+👤 Agregar 10 un articulo 01-100-13
+🤖 ✅ Inventario actualizado
+📦 lagerschaler
+🔢 Código: 01-100-13
+Ahora: 20
+
 👤 Hola
-🤖 👋 ¡Hola! Soy tu asistente de inventario.
-   
-   ¿Qué deseas hacer?
-   1️⃣ Consultar un artículo
-   2️⃣ Modificar cantidad
-   3️⃣ Crear artículo nuevo
+🤖 ❌ No puedo continuar porque falta información.
+Por favor escribe el mensaje siguiendo UNA de estas opciones:
 
-👤 3
-🤖 Perfecto. Para crear un artículo necesito:
-   ✅ Nombre del artículo
-   ✅ Cantidad
+1️⃣ Consultar un producto
+Ejemplo: "Consultar tornillo 4mm"
+Ejemplo: "Info del código 01-100-01"
 
-👤 5 martillos en buena condición, bodega B
-🤖 ✅ Listo, voy a crear:
-   📦 5 martillos
-   🏷️ Condición: buena
-   📍 Ubicación: bodega B
-   
-   ✅ ¡Artículo creado exitosamente!
-```
+2️⃣ Agregar unidades a un producto existente
+Ejemplo: "Agregar 5 unidades al tornillo 4mm"
+Ejemplo: "Sumar 3 al código 01-100-01"
+
+3️⃣ Crear un producto nuevo
+Ejemplo: "Crear producto nuevo: guante quirúrgico, 10 unidades"
+Ejemplo: "Registrar artículo nuevo: taladro Bosch, 5 unidades"
+
+⚠️ Importante:
+Solo se crean productos nuevos si lo indicas explícitamente.
+
+
 
 ### Screenshots
 
