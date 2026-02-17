@@ -487,7 +487,7 @@ Con la única condición de:
 
 **Nombre** - [@instagram](https://www.instagram.com/fguevara.ia/)
 
-**Proyecto:** [https://github.com/f-guevara/inventario-ia-telegram](https://github.com/f-guevara/inventario-ia-telegram)
+**Proyecto:** [https://github.com/f-guevara/inventory-ai-telegram](https://github.com/f-guevara/inventory-ai-telegram)
 
 **LinkedIn:** [https://www.linkedin.com/in/fernandoguevara-erpsystems/](https://www.linkedin.com/in/fernandoguevara-erpsystems/)
 
@@ -507,16 +507,16 @@ Con la única condición de:
 
 Si este proyecto te fue útil, considera darle una estrella ⭐
 
-[![Star History Chart](https://api.star-history.com/svg?repos=f-guevara/inventario-ia-telegram&type=Date)](https://star-history.com/#f-guevara/inventario-ia-telegram&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=f-guevara/inventory-ai-telegram&type=Date)](https://star-history.com/#f-guevara/inventory-ai-telegram&Date)
 
 ---
 
 ## 📊 Estadísticas
 
-![GitHub Stars](https://img.shields.io/github/stars/f-guevara/inventario-ia-telegram?style=social)
-![GitHub Forks](https://img.shields.io/github/forks/f-guevara/inventario-ia-telegram?style=social)
-![GitHub Issues](https://img.shields.io/github/issues/f-guevara/inventario-ia-telegram)
-![GitHub Pull Requests](https://img.shields.io/github/issues-pr/f-guevara/inventario-ia-telegram)
+![GitHub Stars](https://img.shields.io/github/stars/f-guevara/inventory-ai-telegram?style=social)
+![GitHub Forks](https://img.shields.io/github/forks/f-guevara/inventory-ai-telegram?style=social)
+![GitHub Issues](https://img.shields.io/github/issues/f-guevara/inventory-ai-telegram)
+![GitHub Pull Requests](https://img.shields.io/github/issues-pr/f-guevara/inventory-ai-telegram)
 
 ---
 
