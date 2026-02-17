@@ -1,200 +1,227 @@
-# 🤖 Sistema de Inventario Inteligente con IA
+# 🤖 Intelligent Inventory System with AI
 
-> Sistema completo de gestión de inventario mediante conversaciones naturales en Telegram, potenciado por Inteligencia Artificial.
+> Complete inventory management system through natural conversations in Telegram, powered by Artificial Intelligence.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![n8n](https://img.shields.io/badge/n8n-Workflow-orange)](https://n8n.io)
 [![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o--mini-green)](https://openai.com)
 [![Baserow](https://img.shields.io/badge/Baserow-Database-blue)](https://baserow.io)
 
+[🇪🇸 Versión en Español](README.es.md)
+
 ---
 
-## 📋 Tabla de Contenidos
+## 📋 Table of Contents
 
-- [Acerca del Proyecto](#-acerca-del-proyecto)
-- [Características](#-características)
+- [About The Project](#-about-the-project)
+- [Features](#-features)
 - [Demo](#-demo)
-- [Tecnologías](#-tecnologías)
-- [Instalación](#-instalación)
-- [Uso](#-uso)
-- [Documentación](#-documentación)
-- [Costos](#-costos)
+- [Technologies](#-technologies)
+- [Installation](#-installation)
+- [Usage](#-usage)
+- [Documentation](#-documentation)
+- [Costs](#-costs)
 - [Roadmap](#-roadmap)
-- [Contribuir](#-contribuir)
-- [Licencia](#-licencia)
-- [Contacto](#-contacto)
+- [Contributing](#-contributing)
+- [License](#-license)
+- [Contact](#-contact)
 
 ---
 
-## 🎯 Acerca del Proyecto
+## 🎯 About The Project
 
-Este proyecto nació de la necesidad de crear un sistema de inventario **simple, económico y efectivo** para pequeñas empresas y organizaciones sin fines de lucro que no pueden costear sistemas tradicionales de $50-200/mes.
+This project was born from the need to create a **simple, affordable, and effective** inventory system for small businesses and non-profit organizations that cannot afford traditional $50-200/month systems.
 
-### El Problema
+### The Problem
 
-- ✘ Sistemas profesionales son caros y complejos
-- ✘ Hojas de cálculo requieren disciplina y nadie las actualiza
-- ✘ Apps móviles requieren capacitación y tienen curva de aprendizaje
-- ✘ Papel y lápiz no es escalable ni confiable
+- ✘ Professional systems are expensive and complex
+- ✘ Spreadsheets require discipline and nobody updates them
+- ✘ Mobile apps require training and have learning curves
+- ✘ Paper and pencil is not scalable or reliable
 
-### La Solución
+### The Solution
 
-Un bot de Telegram con Inteligencia Artificial que permite:
-- ✅ Registrar artículos mediante conversación natural
-- ✅ Consultar inventario con mensajes simples
-- ✅ Actualizar cantidades sin formularios
-- ✅ Base de datos real (PostgreSQL) con interfaz visual
-- ✅ Costo operativo: $6-22/mes
+A Telegram bot with Artificial Intelligence that allows you to:
+- ✅ Register items through natural conversation
+- ✅ Query inventory with simple messages
+- ✅ Update quantities without forms
+- ✅ Real database (PostgreSQL) with visual interface
+- ✅ Operating cost: $6-22/month
 
-**Ejemplo de uso:**
+**Usage example:**
 
 ```
-👤 "Agregar 5 sillas de oficina, en buen estado, bodega A"
-🤖 "✅ Registrado: 5 sillas de oficina
-    🏷️ Condición: buen estado
-    📍 Ubicación: bodega A"
+👤 "Add 5 office chairs, good condition, warehouse A"
+🤖 "✅ Registered: 5 office chairs
+    🏷️ Condition: good condition
+    📍 Location: warehouse A"
 ```
 
 ---
 
-## ✨ Características
+## ✨ Features
 
-### Funcionalidades Principales
+### Main Functionalities
 
-- 🗣️ **Conversaciones naturales en español** - Sin comandos complejos
-- 📦 **Gestión completa de inventario** - Crear, consultar, modificar artículos
-- 🧠 **IA conversacional** - Entiende contexto y extrae información automáticamente
-- 📊 **Base de datos profesional** - PostgreSQL mediante Baserow
-- 🔒 **Control de acceso** - Solo usuarios autorizados
-- 💾 **Memoria de conversación** - El bot recuerda el contexto
-- 📱 **Multi-plataforma** - Funciona desde cualquier dispositivo con Telegram
+- 🗣️ **Natural conversations in Spanish** - No complex commands
+- 📦 **Complete inventory management** - Create, query, modify items
+- 🧠 **Conversational AI** - Understands context and extracts information automatically
+- 📊 **Professional database** - PostgreSQL via Baserow
+- 🔒 **Access control** - Only authorized users
+- 💾 **Conversation memory** - Bot remembers context
+- 📱 **Multi-platform** - Works from any device with Telegram
 
-### Campos Gestionados
+### Managed Fields
 
-**Obligatorios:**
-- Nombre del artículo
-- Cantidad
+**Required:**
+- Item name
+- Quantity
 
-**Opcionales (extraídos automáticamente si se mencionan):**
-- Categoría
-- Condición (nuevo, usado, bueno, etc.)
-- Donador
-- Ubicación
-- Notas adicionales
+**Optional (automatically extracted if mentioned):**
+- Category
+- Condition (new, used, good, etc.)
+- Donor
+- Location
+- Additional notes
 
 ---
 
-🎥 Demo
-Conversación Completa
-Consultar producto:
-👤 Cuántas unidades de tornillo 10mm
+## 🎥 Demo
 
-🤖 📦 tornillo 10mm
-   🔢 Código: 01-100-07
-   📊 Cantidad: 10 unidades
-   ⚙️ Condición: N/A
-Crear artículo nuevo:
-👤 Artículo nuevo, tornillo 15mm, 10 u
+### Complete Conversation
 
-🤖 ✅ Artículo creado exitosamente
-   📦 Código: 01-100-12
-   📝 Nombre: tornillo 15mm
-   📊 Cantidad: 10
-Restar unidades:
-👤 Restar 2 un a 01-100-12
+**Query product:**
+```
+👤 How many units of 10mm screw
 
-🤖 ✅ Inventario actualizado
-   📦 tornillo 15mm
-   🔢 Código: 01-100-12
-   Ahora: 8
-Agregar unidades:
-👤 Sumar 10 un a 01-100-12
+🤖 📦 10mm screw
+   🔢 Code: 01-100-07
+   📊 Quantity: 10 units
+   ⚙️ Condition: N/A
+```
 
-🤖 ✅ Inventario actualizado
-   📦 tornillo 15mm
-   🔢 Código: 01-100-12
-   Ahora: 18
-Verificar cantidad actualizada:
-👤 Unidades de tornillo 15mm
+**Create new item:**
+```
+👤 New item, 15mm screw, 10 u
 
-🤖 📦 tornillo 15mm
-   🔢 Código: 01-100-12
-   📊 Cantidad: 18 unidades
-   ⚙️ Condición: N/A
-Crear producto (con texto en alemán):
-👤 Agregar nuevos productos: lagerschaler 10 Stück
+🤖 ✅ Item created successfully
+   📦 Code: 01-100-12
+   📝 Name: 15mm screw
+   📊 Quantity: 10
+```
 
-🤖 ✅ Artículo creado exitosamente
-   📦 Código: 01-100-13
-   📝 Nombre: lagerschaler
-   📊 Cantidad: 10
-Actualizar por código:
-👤 Agregar 10 un articulo 01-100-13
+**Subtract units:**
+```
+👤 Subtract 2 u from 01-100-12
 
-🤖 ✅ Inventario actualizado
+🤖 ✅ Inventory updated
+   📦 15mm screw
+   🔢 Code: 01-100-12
+   Now: 8
+```
+
+**Add units:**
+```
+👤 Add 10 u to 01-100-12
+
+🤖 ✅ Inventory updated
+   📦 15mm screw
+   🔢 Code: 01-100-12
+   Now: 18
+```
+
+**Verify updated quantity:**
+```
+👤 Units of 15mm screw
+
+🤖 📦 15mm screw
+   🔢 Code: 01-100-12
+   📊 Quantity: 18 units
+   ⚙️ Condition: N/A
+```
+
+**Create product (with text in German):**
+```
+👤 Add new products: lagerschaler 10 Stück
+
+🤖 ✅ Item created successfully
+   📦 Code: 01-100-13
+   📝 Name: lagerschaler
+   📊 Quantity: 10
+```
+
+**Update by code:**
+```
+👤 Add 10 u item 01-100-13
+
+🤖 ✅ Inventory updated
    📦 lagerschaler
-   🔢 Código: 01-100-13
-   Ahora: 20
-Ayuda contextual:
-👤 Hola
+   🔢 Code: 01-100-13
+   Now: 20
+```
 
-🤖 ❌ No puedo continuar porque falta información.
-   
-   Por favor escribe el mensaje siguiendo UNA de estas opciones:
-   
-   1️⃣ Consultar un producto
-   Ejemplo: "Consultar tornillo 4mm"
-   Ejemplo: "Info del código 01-100-01"
-   
-   2️⃣ Agregar unidades a un producto existente
-   Ejemplo: "Agregar 5 unidades al tornillo 4mm"
-   Ejemplo: "Sumar 3 al código 01-100-01"
-   
-   3️⃣ Crear un producto nuevo
-   Ejemplo: "Crear producto nuevo: guante quirúrgico, 10 unidades"
-   Ejemplo: "Registrar artículo nuevo: taladro Bosch, 5 unidades"
-   
-   ⚠️ Importante:
-   Solo se crean productos nuevos si lo indicas explícitamente.
-Características Demostradas
-✅ Búsqueda inteligente - Por nombre o código
-✅ Generación automática de códigos - Sistema numérico
-✅ Operaciones matemáticas - Sumar/restar inventario
-✅ Multi-idioma - Español, alemán, etc.
-✅ Ayuda contextual - Guía cuando hay error
-✅ Actualización en tiempo real - Cambios inmediatos
+**Contextual help:**
+```
+👤 Hello
 
+🤖 ❌ I cannot continue because information is missing.
+   
+   Please write your message following ONE of these options:
+   
+   1️⃣ Query a product
+   Example: "Query 4mm screw"
+   Example: "Info for code 01-100-01"
+   
+   2️⃣ Add units to an existing product
+   Example: "Add 5 units to 4mm screw"
+   Example: "Add 3 to code 01-100-01"
+   
+   3️⃣ Create a new product
+   Example: "Create new product: surgical glove, 10 units"
+   Example: "Register new item: Bosch drill, 5 units"
+   
+   ⚠️ Important:
+   New products are only created if you explicitly indicate it.
+```
 
+### Demonstrated Features
+
+✅ **Intelligent search** - By name or code  
+✅ **Automatic code generation** - Numeric system  
+✅ **Mathematical operations** - Add/subtract inventory  
+✅ **Multi-language** - Spanish, German, etc.  
+✅ **Contextual help** - Guidance on error  
+✅ **Real-time updates** - Immediate changes  
 
 ### Screenshots
 
-![Conversación Telegram](images/screenshot-telegram.png)
-![Dashboard Baserow](images/screenshot-baserow.png)
+![Telegram Conversation](images/screenshot-telegram.png)
+![Baserow Dashboard](images/screenshot-baserow.png)
 
 ---
 
-## 🛠️ Tecnologías
+## 🛠️ Technologies
 
-| Componente | Tecnología | Propósito |
-|------------|------------|-----------|
-| **Automatización** | [n8n](https://n8n.io) | Orquestación de workflows |
-| **IA** | [OpenAI GPT-4o-mini](https://openai.com) | Procesamiento de lenguaje natural |
-| **Base de Datos** | [Baserow](https://baserow.io) | PostgreSQL con interfaz visual |
-| **Interfaz** | [Telegram Bot API](https://core.telegram.org/bots) | Chat interface |
-| **Deployment** | Docker | Containerización |
+| Component | Technology | Purpose |
+|-----------|------------|---------|
+| **Automation** | [n8n](https://n8n.io) | Workflow orchestration |
+| **AI** | [OpenAI GPT-4o-mini](https://openai.com) | Natural language processing |
+| **Database** | [Baserow](https://baserow.io) | PostgreSQL with visual interface |
+| **Interface** | [Telegram Bot API](https://core.telegram.org/bots) | Chat interface |
+| **Deployment** | Docker | Containerization |
 
-### Arquitectura
+### Architecture
 
 ```
 ┌─────────────┐
-│   Usuario   │
+│    User     │
 │  (Telegram) │
 └──────┬──────┘
        │
        ▼
 ┌─────────────┐
-│ Telegram    │
-│ Bot API     │
+│  Telegram   │
+│   Bot API   │
 └──────┬──────┘
        │
        ▼
@@ -212,278 +239,278 @@ Características Demostradas
 
 ---
 
-## 🚀 Instalación
+## 🚀 Installation
 
-### Prerrequisitos
+### Prerequisites
 
-- Cuenta de [Telegram](https://telegram.org)
-- Cuenta de [Baserow](https://baserow.io) (gratuita)
-- Cuenta de [OpenAI](https://platform.openai.com) (requiere pago)
-- Una de las siguientes opciones para n8n:
-  - **Opción 1:** Cuenta de [n8n Cloud](https://n8n.cloud) (~$20/mes)
-  - **Opción 2:** VPS con Docker (desde $5/mes)
+- [Telegram](https://telegram.org) account
+- [Baserow](https://baserow.io) account (free)
+- [OpenAI](https://platform.openai.com) account (requires payment)
+- One of the following options for n8n:
+  - **Option 1:** [n8n Cloud](https://n8n.cloud) account (~$20/month)
+  - **Option 2:** VPS with Docker (from $5/month)
 
-### Opciones de Instalación
+### Installation Options
 
-Ofrecemos **3 niveles de instalación** según tu experiencia técnica:
+We offer **3 installation levels** based on your technical experience:
 
-#### 📱 Nivel 1: Solo Base de Datos
-**Para:** No técnicos que solo quieren la base de datos  
-**Tiempo:** 10 minutos  
-**Costo:** Gratis  
-📖 [Ver tutorial](docs/02-baserow-config.md)
+#### 📱 Level 1: Database Only
+**For:** Non-technical users who only want the database  
+**Time:** 10 minutes  
+**Cost:** Free  
+📖 [View tutorial](docs/02-baserow-config.md)
 
-#### 🚀 Nivel 2: Sistema Completo (n8n Cloud)
-**Para:** Personas con conocimientos básicos  
-**Tiempo:** 30-40 minutos  
-**Costo:** ~$22/mes  
-📖 [Ver tutorial](docs/03-n8n-cloud-installation.md)
+#### 🚀 Level 2: Complete System (n8n Cloud)
+**For:** People with basic knowledge  
+**Time:** 30-40 minutes  
+**Cost:** ~$22/month  
+📖 [View tutorial](docs/03-n8n-cloud-installation.md)
 
-#### 🛠️ Nivel 3: Sistema Completo (VPS Propio)
-**Para:** Personas técnicas / Desarrolladores  
-**Tiempo:** 1-2 horas  
-**Costo:** ~$6-7/mes  
-📖 [Ver tutorial](docs/04-vps-installation.md)
+#### 🛠️ Level 3: Complete System (Own VPS)
+**For:** Technical people / Developers  
+**Time:** 1-2 hours  
+**Cost:** ~$6-7/month  
+📖 [View tutorial](docs/04-vps-installation.md)
 
-### Guía Rápida (Nivel 2 - n8n Cloud)
+### Quick Guide (Level 2 - n8n Cloud)
 
-1. **Configurar Baserow**
+1. **Configure Baserow**
    ```bash
-   # Ver docs/02-baserow-config.md
-   # Crear cuenta, tabla y obtener API token
+   # See docs/02-baserow-config.md
+   # Create account, table and get API token
    ```
 
-2. **Crear Bot de Telegram**
+2. **Create Telegram Bot**
    ```bash
-   # Buscar @BotFather en Telegram
+   # Search @BotFather in Telegram
    # /newbot
-   # Guardar token
+   # Save token
    ```
 
-3. **Configurar OpenAI**
+3. **Configure OpenAI**
    ```bash
-   # Crear cuenta en platform.openai.com
-   # Agregar método de pago
-   # Generar API key
+   # Create account at platform.openai.com
+   # Add payment method
+   # Generate API key
    ```
 
-4. **Crear instancia n8n Cloud**
+4. **Create n8n Cloud instance**
    ```bash
-   # Registrarse en n8n.cloud
-   # Crear instancia (14 días gratis)
+   # Register at n8n.cloud
+   # Create instance (14 days free)
    ```
 
-5. **Importar workflow**
+5. **Import workflow**
    ```bash
-   # Descargar workflows/inventario-baserow.json
-   # Importar en n8n
-   # Configurar credenciales
+   # Download workflows/inventario-baserow.json
+   # Import into n8n
+   # Configure credentials
    ```
 
-6. **¡Listo!** Envía un mensaje a tu bot de Telegram
+6. **Done!** Send a message to your Telegram bot
 
 ---
 
-## 💻 Uso
+## 💻 Usage
 
-### Comandos Básicos
+### Basic Commands
 
-El bot NO usa comandos tradicionales. Solo conversación natural:
+The bot does NOT use traditional commands. Only natural conversation:
 
-**Saludar / Ver menú:**
+**Greet / View menu:**
 ```
-"Hola"
 "Hello"
-"Buenos días"
+"Hi"
+"Good morning"
 ```
 
-**Crear artículo (mínimo):**
+**Create item (minimum):**
 ```
-"Crear 5 sillas"
-"10 martillos"
-"Agregar 3 laptops"
-```
-
-**Crear artículo (completo):**
-```
-"Crear 5 sillas de oficina, en buen estado, donadas por Juan, bodega A"
+"Create 5 chairs"
+"10 hammers"
+"Add 3 laptops"
 ```
 
-**Consultar:**
+**Create item (complete):**
 ```
-"Consultar sillas"
-"¿Cuántas mesas tengo?"
-"Buscar laptops"
+"Create 5 office chairs, in good condition, donated by John, warehouse A"
 ```
 
-**Modificar cantidad:**
+**Query:**
 ```
-"Aumentar 10 sillas"
-"Agregar 5 mesas"
-"Quitar 3 laptops"
-"Disminuir 2 martillos"
+"Query chairs"
+"How many tables do I have?"
+"Search laptops"
 ```
 
-### Flujo de Trabajo Típico
+**Modify quantity:**
+```
+"Add 10 chairs"
+"Add 5 tables"
+"Remove 3 laptops"
+"Subtract 2 hammers"
+```
 
-1. Usuario saluda al bot
-2. Bot muestra menú de opciones
-3. Usuario selecciona opción (o escribe directamente)
-4. Bot procesa con IA y extrae información
-5. Si falta info obligatoria, bot pregunta
-6. Bot confirma y ejecuta acción
-7. Datos se guardan automáticamente en Baserow
+### Typical Workflow
+
+1. User greets the bot
+2. Bot shows menu of options
+3. User selects option (or writes directly)
+4. Bot processes with AI and extracts information
+5. If required info is missing, bot asks
+6. Bot confirms and executes action
+7. Data is automatically saved in Baserow
 
 ---
 
-## 📚 Documentación
+## 📚 Documentation
 
-### Documentos Disponibles
+### Available Documents
 
-| Documento | Descripción | Audiencia |
-|-----------|-------------|-----------|
-| [Instrucciones Generales](docs/01-general-instructions.md) | Visión general y decisión de ruta | Todos |
-| [Configuración Baserow](docs/02-baserow-config.md) | Setup de base de datos | Principiantes |
-| [Instalación n8n Cloud](docs/03-n8n-cloud-installation.md) | Sistema completo (fácil) | No técnicos |
-| [Instalación VPS](docs/04-vps-installation.md) | Sistema completo (avanzado) | Técnicos |
+| Document | Description | Audience |
+|----------|-------------|----------|
+| [General Instructions](docs/01-general-instructions.md) | Overview and route decision | Everyone |
+| [Baserow Configuration](docs/02-baserow-config.md) | Database setup | Beginners |
+| [n8n Cloud Installation](docs/03-n8n-cloud-installation.md) | Complete system (easy) | Non-technical |
+| [VPS Installation](docs/04-vps-installation.md) | Complete system (advanced) | Technical |
 
-### Archivos Adicionales
+### Additional Files
 
-- `workflows/inventario-baserow.json` - Workflow de n8n listo para importar
-- `prompts/agente-inventario.txt` - Prompts optimizados de OpenAI
-- `ejemplos/datos-ejemplo.csv` - Datos de prueba para Baserow
+- `workflows/inventario-baserow.json` - n8n workflow ready to import
+- `prompts/agente-inventario.txt` - Optimized OpenAI prompts
+- `ejemplos/datos-ejemplo.csv` - Test data for Baserow
 
 ---
 
-## 💰 Costos
+## 💰 Costs
 
-### Comparativa de Opciones
+### Options Comparison
 
-| Componente | Opción 1<br>(Solo DB) | Opción 2<br>(n8n Cloud) | Opción 3<br>(VPS) |
-|------------|---------------------|---------------------|-----------------|
-| Baserow | Gratis | Gratis | Gratis |
-| OpenAI API | - | ~$1-2/mes | ~$1-2/mes |
-| n8n | - | $20/mes | - |
-| Hosting | - | - | $5/mes |
-| **Total** | **$0** | **~$22/mes** | **~$6-7/mes** |
+| Component | Option 1<br>(DB Only) | Option 2<br>(n8n Cloud) | Option 3<br>(VPS) |
+|-----------|---------------------|---------------------|-----------------|
+| Baserow | Free | Free | Free |
+| OpenAI API | - | ~$1-2/month | ~$1-2/month |
+| n8n | - | $20/month | - |
+| Hosting | - | - | $5/month |
+| **Total** | **$0** | **~$22/month** | **~$6-7/month** |
 
-### Notas sobre Costos
+### Cost Notes
 
-- **Baserow:** Gratis hasta 5,000 filas (suficiente para mayoría de casos)
-- **OpenAI:** Uso típico $1-2/mes con GPT-4o-mini. Puedes configurar límites.
-- **n8n Cloud:** $20/mes (plan Starter). 14 días gratis de prueba.
-- **VPS:** Desde $5/mes (Hostinger, DigitalOcean, etc.)
+- **Baserow:** Free up to 5,000 rows (enough for most cases)
+- **OpenAI:** Typical usage $1-2/month with GPT-4o-mini. You can set limits.
+- **n8n Cloud:** $20/month (Starter plan). 14 days free trial.
+- **VPS:** From $5/month (Hostinger, DigitalOcean, etc.)
 
 ---
 
 ## 🗺️ Roadmap
 
-### Versión Actual: v1.0
+### Current Version: v1.0
 
-- [x] Conversaciones naturales en español
-- [x] CRUD completo de inventario
-- [x] Integración con Baserow
-- [x] Memoria de conversación
-- [x] Control de acceso por usuario
-- [x] Documentación completa
+- [x] Natural conversations in Spanish
+- [x] Complete CRUD for inventory
+- [x] Baserow integration
+- [x] Conversation memory
+- [x] User access control
+- [x] Complete documentation
 
-### Versión 1.1 (En progreso)
+### Version 1.1 (In progress)
 
-- [ ] Búsqueda avanzada con filtros
-- [ ] Exportar reportes por Telegram
-- [ ] Alertas de stock bajo
-- [ ] Soporte para códigos QR
-- [ ] Comandos de voz
+- [ ] Advanced search with filters
+- [ ] Export reports via Telegram
+- [ ] Low stock alerts
+- [ ] QR code support
+- [ ] Voice commands
 
-### Versión 2.0 (Futuro)
+### Version 2.0 (Future)
 
-- [ ] Soporte multi-idioma
-- [ ] Fotos de artículos
-- [ ] Integración con WhatsApp
-- [ ] Dashboard web
-- [ ] API REST pública
-- [ ] App móvil nativa
+- [ ] Multi-language support
+- [ ] Item photos
+- [ ] WhatsApp integration
+- [ ] Web dashboard
+- [ ] Public REST API
+- [ ] Native mobile app
 
-### Contribuciones Bienvenidas
+### Contributions Welcome
 
-¿Tienes ideas para mejorar? Abre un [Issue](../../issues) o envía un [Pull Request](../../pulls)
-
----
-
-## 🤝 Contribuir
-
-¡Las contribuciones son lo que hace que la comunidad open source sea increíble! Cualquier contribución que hagas será **muy apreciada**.
-
-### Cómo Contribuir
-
-1. Fork el proyecto
-2. Crea tu Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push al Branch (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
-
-### Áreas donde Necesitamos Ayuda
-
-- 📖 Mejorar documentación
-- 🌍 Traducciones a otros idiomas
-- 🐛 Reportar y corregir bugs
-- ✨ Nuevas funcionalidades
-- 🎨 Mejoras de UX en conversaciones
-- 📹 Videos tutoriales
-
-### Guía de Estilo
-
-- Commits en español
-- Código comentado en español
-- Seguir estructura existente de archivos
-- Probar antes de hacer PR
+Have ideas to improve? Open an [Issue](../../issues) or send a [Pull Request](../../pulls)
 
 ---
 
-## 📄 Licencia
+## 🤝 Contributing
 
-Distribuido bajo la Licencia MIT. Ver `LICENSE` para más información.
+Contributions are what make the open source community amazing! Any contribution you make will be **greatly appreciated**.
 
-Esto significa que puedes:
-- ✅ Usar comercialmente
-- ✅ Modificar
-- ✅ Distribuir
-- ✅ Uso privado
+### How to Contribute
 
-Con la única condición de:
-- ⚠️ Incluir la licencia y copyright notice
+1. Fork the project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+### Areas Where We Need Help
+
+- 📖 Improve documentation
+- 🌍 Translations to other languages
+- 🐛 Report and fix bugs
+- ✨ New features
+- 🎨 UX improvements in conversations
+- 📹 Tutorial videos
+
+### Style Guide
+
+- Commits in English
+- Code commented in English
+- Follow existing file structure
+- Test before making PR
 
 ---
 
-## 📞 Contacto
+## 📄 License
 
-**Nombre** - [@instagram](https://www.instagram.com/fguevara.ia/) 
+Distributed under the MIT License. See `LICENSE` for more information.
 
-**Proyecto:** [https://github.com/f-guevara/inventario-ia-telegram](https://github.com/f-guevara/inventario-ia-telegram)
+This means you can:
+- ✅ Use commercially
+- ✅ Modify
+- ✅ Distribute
+- ✅ Private use
 
-**LinkedIn:** (https://www.linkedin.com/in/fernandoguevara-erpsystems/)
+With the only condition of:
+- ⚠️ Include license and copyright notice
 
 ---
 
-## 🙏 Agradecimientos
+## 📞 Contact
 
-- [n8n](https://n8n.io) - Por la increíble plataforma de automatización
-- [Baserow](https://baserow.io) - Por la base de datos open source
-- [OpenAI](https://openai.com) - Por hacer accesible la IA
-- [Telegram](https://telegram.org) - Por la API gratuita de bots
-- La comunidad open source - Por inspirar este proyecto
+**Name** - [@instagram](https://www.instagram.com/fguevara.ia/)
+
+**Project:** [https://github.com/f-guevara/inventario-ia-telegram](https://github.com/f-guevara/inventario-ia-telegram)
+
+**LinkedIn:** [https://www.linkedin.com/in/fernandoguevara-erpsystems/](https://www.linkedin.com/in/fernandoguevara-erpsystems/)
+
+---
+
+## 🙏 Acknowledgments
+
+- [n8n](https://n8n.io) - For the incredible automation platform
+- [Baserow](https://baserow.io) - For the open source database
+- [OpenAI](https://openai.com) - For making AI accessible
+- [Telegram](https://telegram.org) - For the free bot API
+- The open source community - For inspiring this project
 
 ---
 
 ## ⭐ Star History
 
-Si este proyecto te fue útil, considera darle una estrella ⭐
+If this project was useful to you, consider giving it a star ⭐
 
 [![Star History Chart](https://api.star-history.com/svg?repos=f-guevara/inventario-ia-telegram&type=Date)](https://star-history.com/#f-guevara/inventario-ia-telegram&Date)
 
 ---
 
-## 📊 Estadísticas
+## 📊 Statistics
 
 ![GitHub Stars](https://img.shields.io/github/stars/f-guevara/inventario-ia-telegram?style=social)
 ![GitHub Forks](https://img.shields.io/github/forks/f-guevara/inventario-ia-telegram?style=social)
@@ -492,4 +519,4 @@ Si este proyecto te fue útil, considera darle una estrella ⭐
 
 ---
 
-**Hecho con ❤️ para la comunidad open source**
+**Made with ❤️ for the open source community**
